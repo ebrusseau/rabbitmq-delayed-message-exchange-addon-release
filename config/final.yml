@@ -1,0 +1,6 @@
+---
+final_name: rabbitmq-delayed-message-exchange-addon
+blobstore:
+  provider: local
+  options:
+    blobstore_path: final_blobs

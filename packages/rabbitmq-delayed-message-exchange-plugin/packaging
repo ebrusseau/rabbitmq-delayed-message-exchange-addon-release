@@ -1,0 +1,3 @@
+set -e
+
+cp rabbitmq-delayed-message-exchange-plugin/*.zip "$BOSH_INSTALL_TARGET"

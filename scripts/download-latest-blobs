@@ -1,0 +1,29 @@
+#!/bin/bash
+
+RMQ_VERSION_NAMES=( 3.6.x 3.7.x )
+
+BINTRAY_PACKAGE_API_URL="https://api.bintray.com/packages/rabbitmq/community-plugins/rabbitmq_delayed_message_exchange"
+BINTRAY_DL_URL="https://dl.bintray.com/rabbitmq/community-plugins"
+DOWNLOAD_DIR="/tmp/rabbitmq_delayed_message_exchange_plugins"
+BINTRAY_VERSIONS_RESULT=$(curl -s $BINTRAY_PACKAGE_API_URL | jq -r '.versions[]')
+
+[[ ! -d "$DOWNLOAD_DIR" ]] && mkdir -p $DOWNLOAD_DIR
+
+for rmq_version_name in ${RMQ_VERSION_NAMES[@]}; do
+  rmq_version_name_regex=$(echo $rmq_version_name | sed 's/\./\\\./g')
+
+  bintray_versions=()
+  for bintray_version in $BINTRAY_VERSIONS_RESULT; do
+    [[ $bintray_version =~ ^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])\-${rmq_version_name_regex}$ ]] && bintray_versions+=( $bintray_version )
+  done
+
+  latest_version=($(printf '%s\n' "${bintray_versions[@]}"|sort -r))
+
+  echo "Downloading latest version for RabbitMQ $rmq_version_name: ${bintray_versions[@]}..."
+
+  download_file="rabbitmq_delayed_message_exchange-$latest_version.zip"
+  download_url="$BINTRAY_DL_URL/$rmq_version_name/rabbitmq_delayed_message_exchange/$download_file"
+  wget -P $DOWNLOAD_DIR $download_url
+
+  [[ ! -z $(which bosh) ]] && bosh add-blob $DOWNLOAD_DIR/$download_file rabbitmq-delayed-message-exchange-plugin/rabbitmq-delayed-message-exchange-plugin-$rmq_version_name.zip
+done

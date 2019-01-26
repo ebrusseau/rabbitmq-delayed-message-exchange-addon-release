@@ -1,0 +1,10 @@
+---
+name: install-delayed-message-exchange-plugin
+
+templates:
+  post-start.bash: bin/post-start
+
+packages:
+  - rabbitmq-delayed-message-exchange-plugin
+
+properties: {}

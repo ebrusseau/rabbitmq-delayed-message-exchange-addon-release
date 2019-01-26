@@ -1,0 +1,7 @@
+---
+name: rabbitmq-delayed-message-exchange-plugin
+
+dependencies: []
+
+files:
+  - rabbitmq-delayed-message-exchange-plugin/*.zip
