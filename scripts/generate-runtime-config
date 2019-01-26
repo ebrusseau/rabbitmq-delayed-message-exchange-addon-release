@@ -1,0 +1,9 @@
+if [[ -z "$(which bosh)" ]]; then
+  echo "BOSH CLI could not be found"
+  exit
+fi
+
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}" )
+VERSION=${1:-1}
+
+sed "s/YOUR_VERSION/${VERSION}/g" ${SCRIPT_DIR}/../runtime-config-example.yml > ${SCRIPT_DIR}/../runtime-config.yml

@@ -1,11 +1,11 @@
 releases:
   - name: rabbitmq-delayed-message-exchange-addon
-    version: 1
+    version: YOUR_VERSION
 
 addons:
   - name: rabbitmq-delayed-message-exchange
     jobs:
-      - name: install-plugin
+      - name: install-delayed-message-exchange-plugin
         release: rabbitmq-delayed-message-exchange-addon
     include:
       jobs:

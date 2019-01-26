@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ -z "$(which bosh)" ]]; then
+  echo "BOSH CLI could not be found"
+  exit
+fi
+
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}" )
+VERSION=${1:-1}
+TARBALL_PATH=${2:-"${SCRIPT_DIR}/.."}
+
+bosh upload-blobs
+bosh create-release --final --force --version=$VERSION --tarball=$TARBALL_PATH/rabbit-delayed-message-exchange-addon-$VERSION.tgz
