@@ -7,7 +7,7 @@ fi
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}" )
 VERSION=${1:-1}
-TARBALL_PATH=${2:-"${SCRIPT_DIR}/.."}
+TARBALL_PATH=${2:-"${SCRIPT_DIR}/../rabbit-delayed-message-exchange-addon-${VERSION}.tgz"}
 
 bosh upload-blobs
-bosh create-release --final --force --version=$VERSION --tarball=$TARBALL_PATH/rabbit-delayed-message-exchange-addon-$VERSION.tgz
+bosh create-release --final --force --version=$VERSION --tarball=$TARBALL_PATH

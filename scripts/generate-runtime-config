@@ -5,5 +5,6 @@ fi
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}" )
 VERSION=${1:-1}
+FILE_PATH=${2:-"${SCRIPT_DIR}/../runtime-config.yml"}
 
-sed "s/YOUR_VERSION/${VERSION}/g" ${SCRIPT_DIR}/../runtime-config-example.yml > ${SCRIPT_DIR}/../runtime-config.yml
+sed "s/YOUR_VERSION/${VERSION}/g" ${SCRIPT_DIR}/../runtime-config-example.yml > ${FILE_PATH}
