@@ -30,3 +30,25 @@ Finally, you will set the BOSH runtime config using the file you created:
 ```
 $ bosh -e <your environment> update-runtime-config --name=rabbitmq-delayed-message-exchange-addon runtime-config.yml
 ```
+
+## Using the Included Scripts to Automate Deployment
+
+Using the included script in a CD pipeline or other automation tool, you can generate and deploy a unique version by running the following script (as an example) and refreshing your RabbitMQ deployment(s):
+
+```
+#!/bin/bash
+
+VERSION=$(date +"%Y%m%d%H%M")
+RELEASE_DIR=../release
+RELEASE_FILE=rabbit-delayed-message-exchange-addon.tgz
+
+scripts/download-latest-blobs
+scripts/generate-runtime-config $VERSION $RELEASE_DIR/runtime-config.yml
+scriots/create-release $VERSION $RELEASE_DIR/$RELEASE_FILE
+
+bosh -e <environment> upload-release $RELEASE_DIR/$RELEASE_FILE
+bosh -e <environment> update-runtime-config --name=rabbit-delayed-message-exchange-addon $VERSION $RELEASE_DIR/runtime-config.yml
+```
+
+
+`
